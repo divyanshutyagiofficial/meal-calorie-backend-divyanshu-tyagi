@@ -1,34 +1,26 @@
-# Use the official Node.js 18 image as base
+# Use Node.js 18 Alpine for smaller image size
 FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
+# Copy package files
 COPY package*.json ./
 
-# Install dependencies including devDependencies for TypeScript compilation
-RUN npm ci
+# Install dependencies
+RUN npm ci --only=production
 
-# Copy the rest of the application code
+# Copy source code
 COPY . .
 
-# Compile TypeScript to JavaScript
+# Build TypeScript
 RUN npm run build
 
-# Create a non-root user for security
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S expressjs -u 1001
+# Expose port
+EXPOSE 3000
 
-# Change ownership of the app directory
-RUN chown -R expressjs:nodejs /app
-USER expressjs
+# Set environment to production
+ENV NODE_ENV=production
 
-# Expose the port the app runs on
-EXPOSE 5000
-
-# Set environment to development
-ENV NODE_ENV=development
-
-# Start the development server (uses nodemon for hot reloading)
-CMD ["npm", "run", "dev"]
+# Start the application
+CMD ["npm", "start"]
