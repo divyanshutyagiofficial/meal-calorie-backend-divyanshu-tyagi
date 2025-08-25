@@ -18,7 +18,9 @@ app.use(cors({
         "http://localhost:3000", // Next.js dev server
         "http://localhost:3001", // Alternative Next.js port
         "https://localhost:3000", // HTTPS version
-        "https://localhost:3001"  // HTTPS version
+        "https://localhost:3001", // HTTPS version
+        "https://meal-calorie-frontend.netlify.app", // Production frontend
+        "https://meal-calorie-frontend.netlify.app/", // Production frontend with trailing slash
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
